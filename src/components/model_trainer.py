@@ -2,7 +2,6 @@ import os
 import sys
 from dataclasses import dataclass
 
-from catboost import CatBoostRegressor
 from sklearn.ensemble import (
     RandomForestRegressor,
     AdaBoostRegressor,
@@ -47,8 +46,6 @@ class ModelTrainer:
                 "Linear Regression": LinearRegression(),
                 "KNN": KNeighborsRegressor(),
                 "Decision Tree": DecisionTreeRegressor(),
-                "XGBoost": XGBRegressor(),
-                "CatBoost": CatBoostRegressor(),
             }
 
             params = {
@@ -72,15 +69,6 @@ class ModelTrainer:
                     'n_estimators': [8, 16, 32, 64, 128, 256]
                 },
                 "Linear Regression": {},
-                "XGBoost": {
-                    'learning_rate': [.1, .01, .05, .001],
-                    'n_estimators': [8, 16, 32, 64, 128, 256]
-                },
-                "CatBoost": {
-                    'depth': [6, 8, 10],
-                    'learning_rate': [0.01, 0.05, 0.1],
-                    'iterations': [30, 50, 100]
-                },
                 "AdaBoost": {
                     'learning_rate': [.1, .01, 0.5, .001],
                     # 'loss':['linear','square','exponential'],
@@ -118,7 +106,7 @@ class ModelTrainer:
             predicted = best_model.predict(X_test)
 
             r2_square = r2_score(y_test, predicted)
-            return r2_square
+            return r2_square, best_model_name
 
         except Exception as e:
             raise CustomException(e, sys)
