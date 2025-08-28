@@ -1,7 +1,5 @@
 pandas
 numpy
 dill
-catboost
-xgboost
 scikit-learn
 Flask
